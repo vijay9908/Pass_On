@@ -2,14 +2,20 @@
 An application to send files across two systems.
 Based on TCP sockets and Tkinter
 
-#env 
+Required before trying:
 - [ Pipenv ](https://pypi.org/project/pipenv/)
 
-$ sudo pip install -r requirements.txt
+```requirements
+pip install -r requirements.txt
+```
 
-$ python sender.py
+```s1
+python sender.py
+```
 
-$ python receiver.py
+```s2
+python receiver.py
+```
 
 # Pass_On application
 Send button opens fileDialog box for easy file selection.
