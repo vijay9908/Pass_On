@@ -7,9 +7,9 @@ Based on TCP sockets and Tkinter
 
 $ sudo pip install -r requirements.txt
 
-$ python server.py
+$ python sender.py
 
-$ python client.py
+$ python receiver.py
 
 # Pass_On application
 Send button opens fileDialog box for easy file selection.
