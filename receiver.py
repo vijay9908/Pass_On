@@ -162,7 +162,6 @@ class ReceivePage(tk.Frame):
             HOST, PORT = e_host_v, e_port_v
             data = e_data_v
 
-            # Create a socket (SOCK_STREAM means a TCP socket)
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((HOST, PORT))
                 s.sendall(bytes(data + "\n", "utf-8"))
