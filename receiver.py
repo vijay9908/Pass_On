@@ -11,7 +11,6 @@ import os
 from tkinter import PhotoImage,BitmapImage
 
 Format = "utf-8"
-LARGE_FONT= ("Georgia", 12)
 
 class Page(tk.Tk):
 
@@ -57,7 +56,7 @@ class clientloginPage(tk.Frame):
         l_logo.image = logo
         l_logo.grid(row=0,column=1,columnspan=3, sticky="NSEW",padx=10,pady=20)
 
-        l_title=tk.Label(self, text="Client Software",font=('Georgia',13),bg="#20bebe")
+        l_title=tk.Label(self, text="Receiver Software",font=('Georgia',13),bg="#20bebe")
         l_title.grid(row=1,column=1,columnspan=3, sticky="NSEW",padx=10,pady=20)
 
         label_username = tk.Label(self, text="Username")
@@ -79,7 +78,6 @@ class clientloginPage(tk.Frame):
         logbtn.grid(row=6, column=1,sticky='NSEW', padx=10, pady=10)
 
         def login_btn_clicked():
-            # print("Clicked")
             username = entry_username.get()
             password = entry_password.get()
 
@@ -134,7 +132,7 @@ class ReceivePage(tk.Frame):
         e_port.grid(row=3, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
         e_port.insert(tk.END,1700)
 
-        message_label=tk.Label(self,text="Server Message",font=("Georgia,12"))
+        message_label=tk.Label(self,text="Sender Message",font=("Georgia,12"))
         message_label.grid(row=4,column=0,columnspan=3,padx=10,pady=10,sticky="NSEW")
 
 
@@ -148,14 +146,16 @@ class ReceivePage(tk.Frame):
         accept_button=tk.Button(self,text="Accept",command=lambda: my_server())
         accept_button.grid(row=14,column=0,padx=10,pady=10,sticky="nsew")
 
+        quit=tk.Button(self,text="Quit",command=lambda: quit())
+        quit.grid(row=14,column=3,padx=10,pady=10,sticky="NSEW")
+
         e_data=tk.Entry(self)
         e_data.grid(row=14,column=1,padx=10,pady=10,sticky="nsew")
 
 
         def my_server():
-
             e_data_v = e_data.get()
-            e_host_v = e_host.get()
+            e_host_v = "192.168.0.138"            #e_host.get()
             e_port_v=int(e_port.get())
 
 
@@ -186,6 +186,10 @@ class ReceivePage(tk.Frame):
                             f.write(data)
                 f.close()
             s.close()
+        
+        def quit():
+            print("Quitting...")
+            sys.exit(0)
 
 
 app = Page()

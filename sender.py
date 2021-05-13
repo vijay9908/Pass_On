@@ -10,7 +10,6 @@ from PIL import Image, ImageTk
 from tkinter import filedialog
 
 
-LARGE_FONT= ("Georgia", 12)
 Format = "utf-8"
 
 def my_server(show_1,HOST,PORT):
@@ -31,12 +30,8 @@ def my_server(show_1,HOST,PORT):
         show_1.insert(tk.END,"\n")
 
         file = filedialog.askopenfilename(initialdir="/", title="Select the file to Transfer", filetypes = (("png files", "*.png"),("jpg files", "*.jpg"),("txt files", "*.txt")))
-        
-        
         #file_size = os.path.getsize(file)
         #progress = tqdm.tqdm(range(file_size),"Sending the file", unit="B", unit_scale=True, unit_divisor=1024)
-
-
         f = open(file,'rb')
         l = f.read(1024)
 
@@ -174,7 +169,7 @@ class SendPage(tk.Frame):
         e_port.grid(row=3, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
         e_port.insert(tk.END,1700)
 
-        message_label=tk.Label(self,text="Client Message",font=("Georgia,12"))
+        message_label=tk.Label(self,text="Receiver Message",font=("Georgia,12"))
         message_label.grid(row=4,column=0,columnspan=3,padx=10,pady=10,sticky="NSEW")
 
         scrollbar_y = tk.Scrollbar(self)
@@ -200,7 +195,7 @@ class SendPage(tk.Frame):
                 e_port_v=int(e_port.get())
 
         def connect():
-            e_host_v=e_host.get()
+            e_host_v= "0.0.0.0"  #e_host.get()
             e_port_v=int(e_port.get())
             _thread.start_new_thread(my_server,(show_1,e_host_v,e_port_v))
             global secs
