@@ -7,7 +7,7 @@ import socket
 import time
 from time import ctime
 import sys
-from tkinter import PhotoImage
+import os
 from tkinter import PhotoImage,BitmapImage
 
 Format = "utf-8"
@@ -119,7 +119,7 @@ class ReceivePage(tk.Frame):
             clock.after(200,timenow)
         timenow()
 
-        label = tk.Label(self, text="Client Software ", font=('Georgia', 13) ,bg="#20bebe",fg="black")
+        label = tk.Label(self, text="Receiver Software ", font=('Georgia', 13) ,bg="#20bebe",fg="black")
         label.grid(row=1, column=0, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
 
         l_host=tk.Label(self,text="Enter Host Name")

@@ -91,7 +91,7 @@ class ServerLogin(tk.Frame):
         l_logo.image = logo
         l_logo.grid(row=0,column=1,columnspan=3, sticky="NSEW",padx=10,pady=20)
 
-        l_title=tk.Label(self, text="Server Software",font=('Georgia', 13),bg="#ed1135",fg='white')
+        l_title=tk.Label(self, text="Sender Software",font=('Georgia', 13),bg="#ed1135",fg='white')
         l_title.grid(row=1,column=1,columnspan=3, sticky="NSEW",padx=10,pady=20)
 
         label_username = tk.Label(self, text="Username")
