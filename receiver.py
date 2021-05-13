@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import time
 import datetime
 import socket
-import time
+import time, tqdm
 from time import ctime
 import sys
 import os
@@ -60,7 +60,6 @@ class clientloginPage(tk.Frame):
         l_title=tk.Label(self, text="Client Software",font=('Georgia',13),bg="#20bebe")
         l_title.grid(row=1,column=1,columnspan=3, sticky="NSEW",padx=10,pady=20)
 
-
         label_username = tk.Label(self, text="Username")
         label_password = tk.Label(self, text="Password")
 
@@ -85,11 +84,8 @@ class clientloginPage(tk.Frame):
             password = entry_password.get()
 
             if len(username) and len(password) > 2:
-                # print(username, password)
-
                 if username == "admin" and password == "1234":
                     controller.show_frame(ReceivePage)
-                # display a message if username and password is incorrect!
                 else:
                     messagebox.showinfo(self,"Incorrect credentials! ")
 
@@ -149,7 +145,7 @@ class ReceivePage(tk.Frame):
                        bg="Grey",fg="White")
         show_1.grid(row=5, column=0,rowspan=3,columnspan=3,sticky="NSEW")
 
-        accept_button=tk.Button(self,text="Accept & Send",command=lambda: my_server())
+        accept_button=tk.Button(self,text="Accept",command=lambda: my_server())
         accept_button.grid(row=14,column=0,padx=10,pady=10,sticky="nsew")
 
         e_data=tk.Entry(self)
@@ -168,9 +164,11 @@ class ReceivePage(tk.Frame):
 
             # Create a socket (SOCK_STREAM means a TCP socket)
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                # Connect to server and send data
                 s.connect((HOST, PORT))
                 s.sendall(bytes(data + "\n", "utf-8"))
+
+                #file_size = 0
+                #progress = tqdm.tqdm(range(file_size), "Receiving file", unit="B", unit_scale=True, unit_divisor=1024)
 
                 with open('received_file.png','wb') as f:
                     print('file opened')
@@ -179,9 +177,9 @@ class ReceivePage(tk.Frame):
 
                     while True:
                         data = s.recv(1024)
+                        #progress.update(len(data))
                         print('data=%s',(data))
                         show_1.insert(tk.END,'DATA {}'.format(data))
-
                         if not data:
                             break
                         else:

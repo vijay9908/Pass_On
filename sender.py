@@ -1,6 +1,7 @@
 import tkinter as tk
 import time
 import datetime
+import sys,os,tqdm
 from tkinter import messagebox
 from time import ctime
 from socket import *
@@ -13,16 +14,12 @@ LARGE_FONT= ("Georgia", 12)
 Format = "utf-8"
 
 def my_server(show_1,HOST,PORT):
-
-
     BUFSIZE = 1024
     ADDR = (HOST, PORT)
-
     tcpTimeSrvrSock = socket(AF_INET,SOCK_STREAM)
     tcpTimeSrvrSock.bind(ADDR)
     tcpTimeSrvrSock.listen(5)
     currentDT = datetime.datetime.now()
-
 
     while True:
         show_1.insert(tk.END,"waiting for connection...")
@@ -33,13 +30,20 @@ def my_server(show_1,HOST,PORT):
         show_1.insert(tk.END,"connected {}".format(addr))
         show_1.insert(tk.END,"\n")
 
-        file = filedialog.askopenfilename(initialdir="/", title="Select the file to Transfer", filetypes = (("png files", "*.png"),("jpg files", "*.jpg")))
+        file = filedialog.askopenfilename(initialdir="/", title="Select the file to Transfer", filetypes = (("png files", "*.png"),("jpg files", "*.jpg"),("txt files", "*.txt")))
+        
+        
+        #file_size = os.path.getsize(file)
+        #progress = tqdm.tqdm(range(file_size),"Sending the file", unit="B", unit_scale=True, unit_divisor=1024)
+
+
         f = open(file,'rb')
         l = f.read(1024)
 
         while (l):
             tcpTimeClientSock.send(l)
             print('Sent ',repr(l))
+            #progress.update(len(l))
             l = f.read(1024)
 
         f.close()
@@ -121,7 +125,7 @@ class ServerLogin(tk.Frame):
 
                 if username == "admin" and password == "1234":
                     controller.show_frame(SendPage)
-                # display a ,essage if username and password is incorrect!
+                # display a message if username and password is incorrect!
                 else:
                     messagebox.showinfo(self,"Incorrect credentials! ")
 
@@ -173,7 +177,6 @@ class SendPage(tk.Frame):
         message_label=tk.Label(self,text="Client Message",font=("Georgia,12"))
         message_label.grid(row=4,column=0,columnspan=3,padx=10,pady=10,sticky="NSEW")
 
-
         scrollbar_y = tk.Scrollbar(self)
         scrollbar_y.grid(row=5, column=3,rowspan=6)
 
@@ -205,10 +208,11 @@ class SendPage(tk.Frame):
         
         def disconnec():
             global after_id
-            print("Disconnected")
-            if after_id:
+            print("Disconnected ")
+            ''' if after_id:
                 self.after_cancel(after_id)
-                after_id = None
+                after_id = None '''
+            sys.exit(0)
 
 app = Page()
 app.mainloop()
