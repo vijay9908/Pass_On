@@ -44,7 +44,6 @@ class Page(tk.Tk):
 
 
 class clientloginPage(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
 
@@ -62,14 +61,14 @@ class clientloginPage(tk.Frame):
         label_username = tk.Label(self, text="Username")
         label_password = tk.Label(self, text="Password")
 
-        entry_username = tk.Entry(self,show="*")
+        username_in = tk.Entry(self,show="*")
 
-        entry_password = tk.Entry(self, show="*")
+        password_in = tk.Entry(self, show="*")
 
         label_username.grid(row=3, column=0, sticky='NSEW',padx=10,pady=10)
         label_password.grid(row=4, column=0, sticky='NSEW',padx=10,pady=10)
-        entry_username.grid(row=3, column=1,sticky='NSEW',padx=10,pady=10)
-        entry_password.grid(row=4, column=1,sticky='NSEW',padx=10,pady=10)
+        username_in.grid(row=3, column=1,sticky='NSEW',padx=10,pady=10)
+        password_in.grid(row=4, column=1,sticky='NSEW',padx=10,pady=10)
 
         checkbox = tk.Checkbutton(self, text="Keep me logged in")
         checkbox.grid(row=5, column=1,sticky='NSEW',padx=10,pady=10)
@@ -78,8 +77,8 @@ class clientloginPage(tk.Frame):
         logbtn.grid(row=6, column=1,sticky='NSEW', padx=10, pady=10)
 
         def login_btn_clicked():
-            username = entry_username.get()
-            password = entry_password.get()
+            username = username_in.get()
+            password = password_in.get()
 
             if len(username) and len(password) > 2:
                 if username == "admin" and password == "1234":
@@ -107,30 +106,30 @@ class ReceivePage(tk.Frame):
         clock = tk.Label(self, font=('times', 15, 'bold'), bg='black',fg="white")
         clock.grid(row=1,column=2,padx=6,pady=6) #sticky="NSNESWSE"
 
-        def timenow():
+        def time_stamp():
             time2=time.strftime('%H:%M:%S')
             clock.config(text=time2)
-            clock.after(200,timenow)
-        timenow()
+            clock.after(200,time_stamp)
+        time_stamp()
 
         label = tk.Label(self, text="Receiver Software ", font=('Georgia', 13) ,bg="#20bebe",fg="black")
         label.grid(row=1, column=0, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
 
-        l_host=tk.Label(self,text="Enter Host Name")
-        l_host.grid(row=2, column=0, padx=8, pady=8, sticky="NSNESWSE")
+        Label_host=tk.Label(self,text="Enter Host Name")
+        Label_host.grid(row=2, column=0, padx=8, pady=8, sticky="NSNESWSE")
 
 
-        e_host=tk.Entry(self)
-        e_host.grid(row=2, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
-        e_host.insert(tk.END,'127.0.0.1')
+        host_id=tk.Entry(self)
+        host_id.grid(row=2, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
+        host_id.insert(tk.END,'127.0.0.1')
 
 
         l_port=tk.Label(self,text="Enter Port")
         l_port.grid(row=3, column=0, padx=8, pady=8, sticky="NSNESWSE")
 
-        e_port=tk.Entry(self)
-        e_port.grid(row=3, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
-        e_port.insert(tk.END,1700)
+        port_no=tk.Entry(self)
+        port_no.grid(row=3, column=1, columnspan=2, padx=8, pady=8, sticky="NSNESWSE")
+        port_no.insert(tk.END,1700)
 
         message_label=tk.Label(self,text="Sender Message",font=("Georgia,12"))
         message_label.grid(row=4,column=0,columnspan=3,padx=10,pady=10,sticky="NSEW")
@@ -139,9 +138,9 @@ class ReceivePage(tk.Frame):
         scrollbar_y = tk.Scrollbar(self)
         scrollbar_y.grid(row=5, column=3,rowspan=6)
 
-        show_1=tk.Text(self,height=8, width=35, yscrollcommand=scrollbar_y.set,
+        display_show=tk.Text(self,height=8, width=35, yscrollcommand=scrollbar_y.set,
                        bg="Grey",fg="White")
-        show_1.grid(row=5, column=0,rowspan=3,columnspan=3,sticky="NSEW")
+        display_show.grid(row=5, column=0,rowspan=3,columnspan=3,sticky="NSEW")
 
         accept_button=tk.Button(self,text="Accept",command=lambda: my_server())
         accept_button.grid(row=14,column=0,padx=10,pady=10,sticky="nsew")
@@ -150,35 +149,34 @@ class ReceivePage(tk.Frame):
         quit.grid(row=14,column=3,padx=10,pady=10,sticky="NSEW")
 
         e_data=tk.Entry(self)
-        e_data.grid(row=14,column=1,padx=10,pady=10,sticky="nsew")
+        e_data.grid(row=14,column=1,padx=10,pady=10,sticky="NSEW")
 
 
         def my_server():
             e_data_v = e_data.get()
-            e_host_v = "192.168.0.138"            #e_host.get()
-            e_port_v=int(e_port.get())
+            v1 = host_id.get() #"192.168.0.138"        
+            port_v2=int(port_no.get())
 
 
-            HOST, PORT = e_host_v, e_port_v
+            HOST, PORT = v1, port_v2
             data = e_data_v
 
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((HOST, PORT))
                 s.sendall(bytes(data + "\n", "utf-8"))
-
                 #file_size = 0
                 #progress = tqdm.tqdm(range(file_size), "Receiving file", unit="B", unit_scale=True, unit_divisor=1024)
 
                 with open('received_file.png','wb') as f:
                     print('file opened')
-                    show_1.insert(tk.END,'File Opened !')
-                    show_1.insert(tk.END,'\n')
+                    display_show.insert(tk.END,'File Opened !')
+                    display_show.insert(tk.END,'\n')
 
                     while True:
                         data = s.recv(1024)
                         #progress.update(len(data))
                         print('data=%s',(data))
-                        show_1.insert(tk.END,'DATA {}'.format(data))
+                        display_show.insert(tk.END,'DATA {}'.format(data))
                         if not data:
                             break
                         else:
